@@ -1,13 +1,13 @@
-﻿// MathsProject.cpp : Ten plik zawiera funkcję „main”. W nim rozpoczyna się i kończy wykonywanie programu.
-//
-
+﻿//#include "pch.h"
 #include <iostream>
+#include <stdio.h>     
+#include <stdlib.h>
 #include <conio.h>
 #include <sstream>
+#include <random>
+#include <Windows.h>
 
 using namespace std;
-
-
 
 int main()
 {
@@ -15,9 +15,19 @@ x:
 	string matrixSizeString;
 	double c;
 	bool flag = false;
-	cout << "Prosz\251 poda\206 ilo\230\206 rownan (n) od 1 do 20\n\n";
-	//cout << "Proszę podać wielkość tablicy (n) od 1 do 20\n\n";
-	cin >> matrixSizeString;
+	int tryb = 0;
+	int lower = 0, upper = 0;
+	double lower_bound = 0, upper_bound = 0;
+	cout << "Prosz\251 poda\206 ilo\230\206 rowna\344 (n) od 1 do 20\n\n";
+
+	try
+	{
+		cin >> matrixSizeString;
+	}
+	catch (int e)
+	{
+		cout << e;
+	}
 	system("cls");
 	int matrixSize = atoi(matrixSizeString.c_str());
 	if ((matrixSize <= 20) && (matrixSize >= 1))
@@ -32,7 +42,28 @@ x:
 
 			}
 
-			cout << "Prawid\210owo. Teraz  prosz\251 podawa\206 kolejne elementy rownan:\n\n";
+			cout << "Prawid\210owo. Teraz  prosz\251 podawa\206 kolejne elementy r\242wna\344:\n\n";
+
+			cout << "Prosz\251 wybra\206 tryb wprowadzania" << endl;
+			cout << "1 - liczby dziesi\251tne" << endl;
+			cout << "2 - u\210amki zwyk\210e" << endl;
+			cout << "3 - warto\230ci losowe" << endl;
+			cout << "4 - warto\230ci losowe ca\210kowite" << endl;
+
+			cin >> tryb;
+
+			if (tryb == 3)
+			{
+				cout << "Prosz\251 wprowadzi\206 zakres losowania liczb" << endl;
+				cin >> lower_bound >> upper_bound;
+				system("cls");
+			}
+			else if (tryb == 4)
+			{
+				cout << "Prosz\251 wprowadzić\206 zakres losowania liczb" << endl;
+				cin >> lower >> upper;
+				system("cls");
+			}
 
 			for (int i = 0; i < matrixSize; i++)
 			{
@@ -49,7 +80,48 @@ x:
 				for (int j = 0; j < matrixSize + 1; j++)
 				{
 					cout << i + 1 << "x" << j + 1 << ":" << endl;
-					cin >> tab[i][j];
+
+					if (tryb == 1)
+					{
+					y:						double a;
+						cin >> a;
+
+						if (cin.fail())
+						{
+							cin.clear();
+							cin.ignore();
+							goto y;
+						}
+						else
+						{
+							tab[i][j] = a;
+						}
+
+					}
+					else if (tryb == 2)
+					{
+						double a, b;
+						cin >> a;
+						cout << endl;
+						cin >> b;
+						tab[i][j] = a / b;
+					}
+					else if (tryb == 3)
+					{
+						uniform_real_distribution<double> unif(lower_bound, upper_bound);
+						random_device rand_dev;
+						mt19937 rand_engine(rand_dev());
+
+						double x = unif(rand_engine);
+						std::cout << x << std::endl;
+						int a = 5;
+						tab[i][j] = unif(rand_engine);
+					}
+					else if (tryb == 4)
+					{
+						tab[i][j] = rand() % upper + lower;
+					}
+
 					system("cls");
 					for (int k = 0; k < matrixSize; k++)
 					{
@@ -61,21 +133,9 @@ x:
 					}
 				}
 			}
-			/*
-			tab[0][0] = 3;
-			tab[0][1] = 1;
-			tab[0][2] = 1;
-			tab[0][3] = 6;
-			tab[1][0] = 2;
-			tab[1][1] = -1;
-			tab[1][2] = 3;
-			tab[1][3] = 0;
-			tab[2][0] = 1;
-			tab[2][1] = 3;
-			tab[2][2] = -1;
-			tab[2][3] = 6;
+
+			cout << endl;
 			flag = true;
-			*/
 		}
 		for (int k = 0; k < matrixSize; k++)
 		{
@@ -86,6 +146,7 @@ x:
 			}
 		}
 		cout << endl;
+
 		//obliczanie macierzy
 		for (int j = 0; j < matrixSize; j++)
 		{
@@ -110,7 +171,7 @@ x:
 					}
 					cout << endl;
 				}
-				
+
 			}
 		}
 		for (int j = 0; j < matrixSize; j++)
@@ -140,7 +201,22 @@ x:
 			cout << "\n\n";
 			for (int l = 0; l < matrixSize + 1; l++)
 			{
-				cout << tab[k][l] << "  ";
+				if (l != matrixSize)
+				{
+					cout << tab[k][l] << "  ";
+				}
+				else
+				{
+					HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+					WORD wOldColorAttrs;
+					CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+					GetConsoleScreenBufferInfo(h, &csbiInfo);
+					wOldColorAttrs = csbiInfo.wAttributes;
+					SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
+					cout << tab[k][l] << "  ";
+					SetConsoleTextAttribute(h, wOldColorAttrs);
+				}
+
 			}
 		}
 		delete[] tab;
@@ -153,18 +229,8 @@ x:
 
 
 	}
-	//_getch();
+	_getch();
 
 	return 0;
 }
 
-// Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
-// Debugowanie programu: F5 lub menu Debugowanie > Rozpocznij debugowanie
-
-// Porady dotyczące rozpoczynania pracy:
-//   1. Użyj okna Eksploratora rozwiązań, aby dodać pliki i zarządzać nimi
-//   2. Użyj okna programu Team Explorer, aby nawiązać połączenie z kontrolą źródła
-//   3. Użyj okna Dane wyjściowe, aby sprawdzić dane wyjściowe kompilacji i inne komunikaty
-//   4. Użyj okna Lista błędów, aby zobaczyć błędy
-//   5. Wybierz pozycję Projekt > Dodaj nowy element, aby utworzyć nowe pliki kodu, lub wybierz pozycję Projekt > Dodaj istniejący element, aby dodać istniejące pliku kodu do projektu
-//   6. Aby w przyszłości ponownie otworzyć ten projekt, przejdź do pozycji Plik > Otwórz > Projekt i wybierz plik sln
