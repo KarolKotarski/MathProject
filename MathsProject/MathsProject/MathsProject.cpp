@@ -12,33 +12,32 @@ using namespace std;
 int main()
 {
 x:
+	using namespace std;
+
 	string matrixSizeString;
 	double c;
 	bool flag = false;
 	int tryb = 0;
 	int lower = 0, upper = 0;
 	double lower_bound = 0, upper_bound = 0;
-	cout << "Prosz\251 poda\206 ilo\230\206 rowna\344 (n) od 1 do 20\n\n";
+	cout << "Prosz\251 poda\206 ilo\230\206 rowna\344\n";
 
-	try
-	{
 		cin >> matrixSizeString;
-	}
-	catch (int e)
-	{
-		cout << e;
-	}
+
 	system("cls");
 	int matrixSize = atoi(matrixSizeString.c_str());
-	if ((matrixSize <= 20) && (matrixSize >= 1))
+	if (matrixSize >= 1)
 	{
 		//relokowanie pamięci na tablice
 		double** tab = new double* [matrixSize];
+		double** tab2 = new double* [matrixSize];
+		double* wekt = new double[matrixSize];
 		if (flag == false)
 		{
 			for (int i = 0; i < matrixSize; i++)
 			{
 				tab[i] = new double[matrixSize + 1];
+				tab2[i] = new double[matrixSize + 1];
 
 			}
 
@@ -71,6 +70,7 @@ x:
 				for (int j = 0; j < matrixSize + 1; j++)
 				{
 					tab[i][j] = 0;
+					wekt[i] = 0;
 					cout << tab[i][j] << "  ";
 				}
 			}
@@ -133,7 +133,35 @@ x:
 					}
 				}
 			}
+			//tworzenie kopii macierzy początkowej
+				tab2 = tab;
+				cout << endl;
+				for (int k = 0; k < matrixSize; k++)
+				{
+					//b wejściowe
+					cout << "\n\n";
+					for (int l = 0; l < matrixSize + 1; l++)
+					{
 
+
+						if (l != matrixSize)
+						{
+							cout << tab2[k][l] << "  ";
+						}
+						else
+						{
+							HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+							WORD wOldColorAttrs;
+							CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+							GetConsoleScreenBufferInfo(h, &csbiInfo);
+							wOldColorAttrs = csbiInfo.wAttributes;
+							SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+							cout << tab[k][l] << "  ";
+							SetConsoleTextAttribute(h, wOldColorAttrs);
+						}
+
+					}
+				}
 			cout << endl;
 			flag = true;
 		}
@@ -198,9 +226,12 @@ x:
 		cout << "\n\n" << "nowa macierz:";
 		for (int k = 0; k < matrixSize; k++)
 		{
+			//b wejściowe
 			cout << "\n\n";
 			for (int l = 0; l < matrixSize + 1; l++)
 			{
+
+
 				if (l != matrixSize)
 				{
 					cout << tab[k][l] << "  ";
@@ -219,6 +250,45 @@ x:
 
 			}
 		}
+		for (int k = 0; k < matrixSize; k++)
+		{
+			//b wejściowe
+			cout << "\n\n";
+			for (int l = 0; l < matrixSize + 1; l++)
+			{
+
+
+				if (l != matrixSize)
+				{
+					cout << tab2[k][l] << "  ";
+				}
+				else
+				{
+					HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+					WORD wOldColorAttrs;
+					CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+					GetConsoleScreenBufferInfo(h, &csbiInfo);
+					wOldColorAttrs = csbiInfo.wAttributes;
+					SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+					cout << tab[k][l] << "  ";
+					SetConsoleTextAttribute(h, wOldColorAttrs);
+				}
+
+			}
+		}
+		for (int k = 0; k < matrixSize; k++)
+		{
+			//b wejściowe
+			cout << "\n\n";
+			wekt[k] = tab[k][matrixSize];
+			for (int l = 0; l < matrixSize; l++)
+			{
+				wekt[k] = wekt[k]* tab2[k][l];
+
+			}
+
+			cout << wekt[k] << "  ";
+		}
 		delete[] tab;
 	}
 	else
@@ -229,6 +299,8 @@ x:
 
 
 	}
+
+
 	_getch();
 
 	return 0;
