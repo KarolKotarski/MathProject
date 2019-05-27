@@ -22,8 +22,14 @@ x:
 	double lower_bound = 0, upper_bound = 0;
 	cout << "Prosz\251 poda\206 ilo\230\206 rowna\344\n";
 
+	try
+	{
 		cin >> matrixSizeString;
-
+	}
+	catch (int e)
+	{
+		cout << e;
+	}
 	system("cls");
 	int matrixSize = atoi(matrixSizeString.c_str());
 	if (matrixSize >= 1)
@@ -32,13 +38,13 @@ x:
 		double** tab = new double* [matrixSize];
 		double** tab2 = new double* [matrixSize];
 		double* wekt = new double[matrixSize];
+		double* wekt2 = new double[matrixSize];
 		if (flag == false)
 		{
 			for (int i = 0; i < matrixSize; i++)
 			{
 				tab[i] = new double[matrixSize + 1];
 				tab2[i] = new double[matrixSize + 1];
-
 			}
 
 			cout << "Prawid\210owo. Teraz  prosz\251 podawa\206 kolejne elementy r\242wna\344:\n\n";
@@ -90,7 +96,7 @@ x:
 						{
 							cin.clear();
 							cin.ignore();
-							goto y;
+							//goto y;
 						}
 						else
 						{
@@ -134,43 +140,27 @@ x:
 				}
 			}
 			//tworzenie kopii macierzy początkowej
-				tab2 = tab;
-				cout << endl;
-				for (int k = 0; k < matrixSize; k++)
-				{
-					//b wejściowe
-					cout << "\n\n";
-					for (int l = 0; l < matrixSize + 1; l++)
-					{
+			//tab2 = tab;
 
-
-						if (l != matrixSize)
-						{
-							cout << tab2[k][l] << "  ";
-						}
-						else
-						{
-							HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-							WORD wOldColorAttrs;
-							CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
-							GetConsoleScreenBufferInfo(h, &csbiInfo);
-							wOldColorAttrs = csbiInfo.wAttributes;
-							SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-							cout << tab[k][l] << "  ";
-							SetConsoleTextAttribute(h, wOldColorAttrs);
-						}
-
-					}
-				}
 			cout << endl;
 			flag = true;
 		}
+
+
 		for (int k = 0; k < matrixSize; k++)
 		{
 			cout << "\n\n";
 			for (int l = 0; l < matrixSize + 1; l++)
 			{
 				cout << tab[k][l] << "  ";
+			}
+		}
+
+		for (int k = 0; k < matrixSize; k++)
+		{
+			for (int l = 0; l < matrixSize + 1; l++)
+			{
+				tab2[k][l] = tab[k][l];
 			}
 		}
 		cout << endl;
@@ -270,32 +260,37 @@ x:
 					GetConsoleScreenBufferInfo(h, &csbiInfo);
 					wOldColorAttrs = csbiInfo.wAttributes;
 					SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-					cout << tab[k][l] << "  ";
+					cout << tab2[k][l] << "  ";
 					SetConsoleTextAttribute(h, wOldColorAttrs);
 				}
 
 			}
 		}
+
+		cout << "Błędy" << endl;
+
 		for (int k = 0; k < matrixSize; k++)
 		{
-			//b wejściowe
-			cout << "\n\n";
-			wekt[k] = tab[k][matrixSize];
+			wekt2[k] = tab[k][matrixSize];
+		}
+
+		for (int k = 0; k < matrixSize; k++)
+		{
 			for (int l = 0; l < matrixSize; l++)
 			{
-				wekt[k] = wekt[k]* tab2[k][l];
-
+				wekt[k] += tab2[k][l] * wekt2[l];
 			}
 
-			cout << wekt[k] << "  ";
+			cout << wekt[k] << endl;
 		}
 		delete[] tab;
+		delete[] tab2;
 	}
 	else
 	{
 		//cout << matrixSize << endl;
 		cout << "Podano zly zakres\n";
-		goto x;
+		//goto x;
 
 
 	}
@@ -305,4 +300,5 @@ x:
 
 	return 0;
 }
+
 
