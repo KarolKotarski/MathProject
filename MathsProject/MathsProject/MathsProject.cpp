@@ -15,11 +15,11 @@ x:
 	using namespace std;
 
 	string matrixSizeString;
-	double c;
+	long double c;
 	bool flag = false;
 	int tryb = 0;
 	int lower = 0, upper = 0;
-	double lower_bound = 0, upper_bound = 0;
+	long double lower_bound = 0, upper_bound = 0;
 	cout << "Prosz\251 poda\206 ilo\230\206 rowna\344\n";
 
 	try
@@ -35,16 +35,16 @@ x:
 	if (matrixSize >= 1)
 	{
 		//relokowanie pamięci na tablice
-		double** tab = new double* [matrixSize];
-		double** tab2 = new double* [matrixSize];
-		double* wekt = new double[matrixSize];
-		double* wekt2 = new double[matrixSize];
+		long double** tab = new long double* [matrixSize];
+		long double** tab2 = new long double* [matrixSize];
+		long double* wekt = new long double[matrixSize];
+		long double* wekt2 = new long double[matrixSize];
 		if (flag == false)
 		{
 			for (int i = 0; i < matrixSize; i++)
 			{
-				tab[i] = new double[matrixSize + 1];
-				tab2[i] = new double[matrixSize + 1];
+				tab[i] = new long double[matrixSize + 1];
+				tab2[i] = new long double[matrixSize + 1];
 			}
 
 			cout << "Prawid\210owo. Teraz  prosz\251 podawa\206 kolejne elementy r\242wna\344:\n\n";
@@ -89,7 +89,7 @@ x:
 
 					if (tryb == 1)
 					{
-					y:						double a;
+					y:						long double a;
 						cin >> a;
 
 						if (cin.fail())
@@ -106,7 +106,7 @@ x:
 					}
 					else if (tryb == 2)
 					{
-						double a, b;
+						long double a, b;
 						cin >> a;
 						cout << endl;
 						cin >> b;
@@ -114,11 +114,11 @@ x:
 					}
 					else if (tryb == 3)
 					{
-						uniform_real_distribution<double> unif(lower_bound, upper_bound);
+						uniform_real_distribution<long double> unif(lower_bound, upper_bound);
 						random_device rand_dev;
 						mt19937 rand_engine(rand_dev());
 
-						double x = unif(rand_engine);
+						long double x = unif(rand_engine);
 						std::cout << x << std::endl;
 						int a = 5;
 						tab[i][j] = unif(rand_engine);
