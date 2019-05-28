@@ -73,7 +73,6 @@ public:
 int main()
 {
 x:
-
 	string matrixSizeString;
 	long double c;
 	ulamek c1;
@@ -166,6 +165,7 @@ x:
 				}
 			}
 
+			//wygenerowanie macierzy
 			for (int i = 0; i < matrixSize; i++)
 			{
 				cout << "\n";
@@ -216,22 +216,15 @@ x:
 
 					if (q1 == true)
 					{
-						for (int k = 0; k < matrixSize; k++)
+						if (tryb == 2)
 						{
-							cout << "\n\n";
-							for (int l = 0; l < matrixSize + 1; l++)
+							for (int k = 0; k < matrixSize; k++)
 							{
-								cout << tab[k][l] << "  ";
-							}
-							
-						}
-						cout << endl;
-						for (int k = 0; k < matrixSize; k++)
-						{
-							cout << "\n\n";
-							for (int l = 0; l < matrixSize + 1; l++)
-							{
-								tab3[k][l].wyswietlUlamek();
+								cout << "\n\n";
+								for (int l = 0; l < matrixSize + 1; l++)
+								{
+									tab3[k][l].wyswietlUlamek();
+								}
 							}
 						}
 					}
@@ -241,6 +234,19 @@ x:
 
 			cout << endl;
 			flag = true;
+		}
+
+		//wygenerowana macierz
+		if (q1 == true)
+		{
+			for (int i = 0; i < matrixSize; i++)
+			{
+				for (int j = 0; j < matrixSize; j++)
+				{
+					cout << tab[i][j] << " ";
+				}
+				cout << endl;
+			}
 		}
 
 		//zapamiętanie macierzy przed rozpoczęciem przekształcania
@@ -314,7 +320,7 @@ x:
 						}
 					}
 					tab3[i][matrixSize].dzielenie(tab3[i][j]);
-					tab3[i][j].setXY(1,1);
+					tab3[i][j].setXY(1, 1);
 					for (int ii = 0; ii < matrixSize; ii++)
 					{
 						if (q2 == true) cout << "\n\n";
@@ -359,37 +365,39 @@ x:
 				}
 			}
 		}
-		cout << endl;
-		for (int k = 0; k < matrixSize; k++)
+
+		if (q1 == 1 && tryb == 2)
 		{
-			if (q1 == true) cout << "\n\n";
-			for (int l = 0; l < matrixSize + 1; l++)
+			cout << endl;
+			for (int k = 0; k < matrixSize; k++)
 			{
-				if (l != matrixSize)
+				cout << "\n\n";
+				for (int l = 0; l < matrixSize + 1; l++)
 				{
-					if (q1 == true)
+					if (l != matrixSize)
 					{
-						tab3[k][l].wyswietlUlamek();
+						if (q1 == true)
+						{
+							tab3[k][l].wyswietlUlamek();
+						}
+
 					}
-
-				}
-				else
-				{
-					HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-					WORD wOldColorAttrs;
-					CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
-					GetConsoleScreenBufferInfo(h, &csbiInfo);
-					wOldColorAttrs = csbiInfo.wAttributes;
-					SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-
-					if (q1 == true)
+					else
 					{
-						tab3[k][l].wyswietlUlamek();
-					}
+						HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+						WORD wOldColorAttrs;
+						CONSOLE_SCREEN_BUFFER_INFO csbiInfo;
+						GetConsoleScreenBufferInfo(h, &csbiInfo);
+						wOldColorAttrs = csbiInfo.wAttributes;
+						SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
-					SetConsoleTextAttribute(h, wOldColorAttrs);
+						tab3[k][l].wyswietlUlamek();
+
+						SetConsoleTextAttribute(h, wOldColorAttrs);
+					}
 				}
 			}
+
 		}
 
 		//b wejściowe
